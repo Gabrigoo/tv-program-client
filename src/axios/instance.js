@@ -2,7 +2,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:9000',
+  baseURL: 'https://rigo-tv-program-server.herokuapp.com',
 });
 instance.CancelToken = axios.CancelToken;
 instance.isCancel = axios.isCancel;
