@@ -1,25 +1,55 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
+
+import { getTVProgramData } from './axios/instance';
+import { instance as axios } from './axios/instance';
+import Header from './components/Header';
+import Program from './components/Program';
 import './App.css';
 
-function App() {
+const App = () => {
+
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const [data, setData] = useState(null);
+
+  const [channel, setChannel] = useState(null);
+
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    async function fetchData() {
+      const response = await getTVProgramData(selectedDate, source);
+      if (response) {
+        setData(response);
+        setChannel(Object.keys(response)[0])
+      }
+    }
+    fetchData();
+    return () => {
+      source.cancel('GET request cancelled');
+    }
+  }, [selectedDate]);
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Header 
+        data={data}
+        setChannel={setChannel}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+      />
+      {data && channel ?
+        data[channel] ?
+          <div id="program-book">
+            {data[channel].map((item, index) =>
+              <Program key={item + index} data={item} />
+            )}
+          </div>
+        :
+          <h2>NO DATA AVAILABLE</h2>
+      : null
+      }
     </div>
-  );
+  )
 }
 
 export default App;

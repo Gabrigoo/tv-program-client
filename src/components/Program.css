@@ -1,0 +1,25 @@
+h3 {
+  margin: 0px;
+}
+.starting-time {
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+#program-container {
+  height: 100px;
+  width: 400px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 60px auto 30px;
+  grid-column-gap: 20px;
+  border: rgb(70, 70, 168) solid 3px;
+  border-radius: 10px;
+  background-color: bisque;
+}
+#age-limit-icon {
+  width: 24px;
+  height: 24px;
+}
